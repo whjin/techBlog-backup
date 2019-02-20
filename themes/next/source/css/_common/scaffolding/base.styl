@@ -29,10 +29,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $font-family-headings;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 20px 0 15px;
-}
-
 for headline in (1..6) {
   h{headline} {
     font-size: $font-size-headings-base - $font-size-headings-step * headline;
@@ -101,7 +97,7 @@ hr {
 
 blockquote {
   margin: 1em 0;
-  padding: 12px 20px;
+  padding: 16px;
   color: $grey-dim;
   background: #f8f8f8;
   border-left: 4px solid #0593d3;
