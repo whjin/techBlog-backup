@@ -306,13 +306,6 @@ symbols_count_time:
   awl: 4
   wpm: 275
 
-post_wordcount:
-  item_text: true
-  wordcount: true
-  min2read: true
-  totalcount: true
-  separated_meta: true
-
 codeblock:
   # Manual define the border radius in codeblock
   # Leave it empty for the default 1
@@ -542,8 +535,8 @@ changyan:
 # More info available at https://valine.js.org
 valine:
   enable: false # When enable is set to be true, leancloud_visitors is recommended to be closed for the re-initialization problem within different leancloud adk version.
-  appid:  # your leancloud application appid
-  appkey:  # your leancloud application appkey
+  appid:  YJ8z3tL0cJQNAGJI3cqNc6lM-gzGzoHsz # your leancloud application appid
+  appkey:  9C1culQfAIwayKFaYyHN44q1 # your leancloud application appkey
   notify: false # mail notifier, See: https://github.com/xCss/Valine/wiki
   verify: false # Verification code
   placeholder: Just go go # comment box placeholder
@@ -555,21 +548,21 @@ valine:
 
 # Support for LiveRe comments system.
 # You can get your uid from https://livere.com/insight/myCode (General web site)
-livere_uid: MTAyMC80Mjc0MC8xOTI4Nw==
+#livere_uid: MTAyMC80Mjc0MC8xOTI4Nw==
 
 # Gitment
 # Introduction: https://github.com/imsun/gitment
 gitment:
-  enable: false
+  enable: true
   mint: true # RECOMMEND, A mint on Gitment, to support count, language and proxy_gateway
   count: true # Show comments count in post meta area
   lazy: false # Comments lazy loading with a button
   cleanly: false # Hide 'Powered by ...' on footer, and more
   language: # Force language, or auto switch by theme
-  github_user: # MUST HAVE, Your Github Username
-  github_repo: # MUST HAVE, The name of the repo you use to store Gitment comments
-  client_id: # MUST HAVE, Github client id for the Gitment
-  client_secret: # EITHER this or proxy_gateway, Github access secret token for the Gitment
+  github_user: whjin # MUST HAVE, Your Github Username
+  github_repo: gitment-issues # MUST HAVE, The name of the repo you use to store Gitment comments
+  client_id: 684ca61d2893761ad360 # MUST HAVE, Github client id for the Gitment
+  client_secret: 5dd82dddd63f27a19167397026dbf8810c745ab8 # EITHER this or proxy_gateway, Github access secret token for the Gitment
   proxy_gateway: # Address of api proxy, See: https://github.com/aimingoo/intersect
   redirect_protocol: # Protocol of redirect_uri with force_redirect_protocol when mint enabled
 
@@ -578,11 +571,11 @@ gitment:
 # Reference: https://asdfv1929.github.io/2018/01/20/gitalk/, https://liujunzhou.top/2018/8/10/gitalk-error/
 gitalk:
   enable: false
-  github_id:  # Github repo owner
-  repo:  # Repository name to store issues.
-  client_id:  # Github Application Client ID
-  client_secret:  # Github Application Client Secret
-  admin_user:  # GitHub repo owner and collaborators, only these guys can initialize github issues
+  github_id: whjin # Github repo owner
+  repo: gitment-issues # Repository name to store issues.
+  client_id: 684ca61d2893761ad360 # Github Application Client ID
+  client_secret: 5dd82dddd63f27a19167397026dbf8810c745ab8 # Github Application Client Secret
+  admin_user: whjin # GitHub repo owner and collaborators, only these guys can initialize github issues
   distraction_free_mode: true # Facebook-like distraction free mode
 
 # Baidu Share
@@ -688,8 +681,8 @@ rating:
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
   enable: false
-  app_id: H18wQWzJbzYO4Tt8j6E7Mt2R-gzGzoHsz
-  app_key: 1l8UTSLMmGs6OkADfHhMJrdD
+  app_id: YJ8z3tL0cJQNAGJI3cqNc6lM-gzGzoHsz
+  app_key: 9C1culQfAIwayKFaYyHN44q1
   # Dependencies: https://github.com/theme-next/hexo-leancloud-counter-security
   # If you don't care about security in leancloud counter and just want to use it directly
   # (without hexo-leancloud-counter-security plugin), set `security` to `false`.
@@ -1072,5 +1065,3 @@ images: images
 # 文章末尾添加“本文结束”标记
 passage_end_tag:
   enabled: true
-
-

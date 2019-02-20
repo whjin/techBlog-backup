@@ -91,6 +91,7 @@
 
 
 
+
         <time title="{{ create_title }}" itemprop="dateCreated datePublished"
               datetime="{{ moment(post.date).format() }}">{#
               #}{{ date(post.date) -}}
@@ -111,6 +112,7 @@
                 {% if theme.post_meta.item_text %}
         <span class="post-meta-item-text">{{ __('post.edited') }}</span>
       {% endif %}
+
 
 
 
@@ -219,7 +221,6 @@
           <span class="post-meta-item-text">{{ __('post.views') + __('symbol.colon') }}</span>
         {% endif %}
         <span class="leancloud-visitors-count"></span>
-        <span>℃</span>
             </span>
     {% endif %}
 

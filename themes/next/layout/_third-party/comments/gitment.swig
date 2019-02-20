@@ -10,34 +10,36 @@
 <!-- END LOCAL -->
 
 <style>
-#gitment-container a {
-  border-bottom: none;
-}
-{% if theme.gitment.cleanly %}
+  #gitment-container a {
+    border-bottom: none;
+  }
+
+  {% if theme.gitment.cleanly %}
   a.gitment-editor-footer-tip, .gitment-container.gitment-footer-container {
     display: none;
   }
-{% endif %}
+
+  {% endif %}
 </style>
 
 <script>
   function renderGitment() {
     var gitment = new {{ CommentsClass }}({
-      id: window.location.pathname,
+      id: '{{ page.title }}',
       owner: '{{ theme.gitment.github_user }}',
       repo: '{{ theme.gitment.github_repo }}',
       {% if theme.gitment.mint %}
-        lang: '{{ theme.gitment.language }}' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+      lang: '{{ theme.gitment.language }}' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
       {% endif %}
       oauth: {
-      {% if theme.gitment.mint and theme.gitment.redirect_protocol %}
+        {% if theme.gitment.mint and theme.gitment.redirect_protocol %}
         redirect_protocol: '{{ theme.gitment.redirect_protocol }}',
-      {% endif %}
-      {% if theme.gitment.mint and theme.gitment.proxy_gateway %}
+        {% endif %}
+        {% if theme.gitment.mint and theme.gitment.proxy_gateway %}
         proxy_gateway: '{{ theme.gitment.proxy_gateway }}',
-      {% else %}
+        {% else %}
         client_secret: '{{ theme.gitment.client_secret }}',
-      {% endif %}
+        {% endif %}
         client_id: '{{ theme.gitment.client_id }}'
       }
     });
@@ -45,12 +47,12 @@
   }
 
   {% if not theme.gitment.lazy %}
-    renderGitment();
+  renderGitment();
   {% else %}
-    function showGitment() {
-      document.getElementById('gitment-display-button').style.display = 'none';
-      document.getElementById('gitment-container').style.display = 'block';
-      renderGitment();
-    }
+  function showGitment() {
+    document.getElementById('gitment-display-button').style.display = 'none';
+    document.getElementById('gitment-container').style.display = 'block';
+    renderGitment();
+  }
   {% endif %}
 </script>
