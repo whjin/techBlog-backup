@@ -130,3 +130,4 @@ export default {
 
 ### `v-once`指令 ###
 
+![](https://i.imgur.com/gqN6me7.png)

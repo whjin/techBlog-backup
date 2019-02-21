@@ -26,16 +26,17 @@
         </ul>
       {% endif %}
 
-      <div class="site-overview-wrap sidebar-panel{% if not display_toc or toc(page.content).length <= 1 %} sidebar-panel-active{% endif %}">
+      <div
+        class="site-overview-wrap sidebar-panel{% if not display_toc or toc(page.content).length <= 1 %} sidebar-panel-active{% endif %}">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             {% if theme.avatar.url %}
               <img class="site-author-image" itemprop="image"
-                src="{{ url_for( theme.avatar.url | default(theme.images + '/avatar.gif') ) }}"
-                alt="{{ author }}"/>
+                   src="{{ url_for( theme.avatar.url | default(theme.images + '/avatar.gif') ) }}"
+                   alt="{{ author }}"/>
             {% endif %}
-              <p class="site-author-name" itemprop="name">{{ author }}</p>
-              <p class="site-description motion-element" itemprop="description">{#
+            <p class="site-author-name" itemprop="name">{{ author }}</p>
+            <p class="site-description motion-element" itemprop="description">{#
               #}{{ description }}{#
             #}</p>
           </div>
@@ -44,14 +45,14 @@
             <nav class="site-state motion-element">
               {% if config.archive_dir != '/' and site.posts.length > 0 %}
                 <div class="site-state-item site-state-posts">
-                {% if theme.menu.archives %}
+                  {% if theme.menu.archives %}
                   <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
-                {% else %}
-                  <a href="{{ url_for(config.archive_dir) }}">
-                {% endif %}
-                    <span class="site-state-item-count">{{ site.posts.length }}</span>
-                    <span class="site-state-item-name">{{ __('state.posts') }}</span>
-                  </a>
+                    {% else %}
+                    <a href="{{ url_for(config.archive_dir) }}">
+                      {% endif %}
+                      <span class="site-state-item-count">{{ site.posts.length }}</span>
+                      <span class="site-state-item-name">{{ __('state.posts') }}</span>
+                    </a>
                 </div>
               {% endif %}
 
@@ -66,7 +67,7 @@
                     {% endfor %}
                     <span class="site-state-item-count">{{ visibleCategories }}</span>
                     <span class="site-state-item-name">{{ __('state.categories') }}</span>
-                  {% if hasCategoriesPage %}</a>{% endif %}
+                    {% if hasCategoriesPage %}</a>{% endif %}
                 </div>
               {% endif %}
 
@@ -81,7 +82,7 @@
                     {% endfor %}
                     <span class="site-state-item-count">{{ visibleTags }}</span>
                     <span class="site-state-item-name">{{ __('state.tags') }}</span>
-                  {% if hasTagsPage %}</a>{% endif %}
+                    {% if hasTagsPage %}</a>{% endif %}
                 </div>
               {% endif %}
             </nav>
@@ -104,7 +105,7 @@
                   {% if not (theme.social_icons.enable) or (not theme.social_icons.icons_only) %}
                     {% set sidebarText = name %}
                   {% endif %}
-                  {%  if theme.social_icons.enable %}
+                  {% if theme.social_icons.enable %}
                     {% set sidebarIcon = '<i class="fa fa-fw fa-' + link.split('||')[1] | trim | default('globe') + '"></i>' %}
                   {% endif %}
                   {{ next_url(sidebarURL, sidebarIcon + sidebarText, {title: name + ' &rarr; ' + sidebarURL}) }}
@@ -114,7 +115,7 @@
           {% endif %}
 
           {% if theme.creative_commons.license and theme.creative_commons.sidebar %}
-             <div class="cc-license motion-element" itemprop="license">
+            <div class="cc-license motion-element" itemprop="license">
               {% if theme.creative_commons.license === 'zero' %}
                 {% set ccType = 'publicdomain/zero/1.0/' %}
               {% else %}
@@ -123,12 +124,13 @@
               {% set ccURL = 'https://creativecommons.org/' + ccType %}
               {% set ccImage = '<img src="' + url_for(theme.images + '/cc-' + theme.creative_commons.license + '.svg') + '" alt="Creative Commons"/>' %}
               {{ next_url(ccURL, ccImage, {class: 'cc-opacity'}) }}
-             </div>
+            </div>
           {% endif %}
 
           {# Blogroll #}
           {% if theme.links %}
-            <div class="links-of-blogroll motion-element {{ "links-of-blogroll-" + theme.links_layout | default('inline') }}">
+            <div
+              class="links-of-blogroll motion-element {{ "links-of-blogroll-" + theme.links_layout | default('inline') }}">
               <div class="links-of-blogroll-title">
                 <i class="fa  fa-fw fa-{{ theme.links_icon | default('globe') | lower }}"></i>
                 {{ theme.links_title }}
@@ -153,7 +155,7 @@
       </div>
 
       {% if display_toc and toc(page.content).length > 1 %}
-      <!--noindex-->
+        <!--noindex-->
         <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
 
@@ -172,7 +174,7 @@
 
           </div>
         </div>
-      <!--/noindex-->
+        <!--/noindex-->
       {% endif %}
 
       {% if theme.sidebar.b2t %}
