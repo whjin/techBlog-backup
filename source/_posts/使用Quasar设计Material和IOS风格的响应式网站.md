@@ -37,6 +37,41 @@ comments:
 
 最后搭建项目：`quasar init <folder name>`
 
+取代`main.js`的`quasar.config.js`设置文件：
+
+- 引用Quasar内建的组件，可以不用在每个地方`import components`
+- `i18n`设置多国语系
+- `icons`移除注释即可使用
+- `开发模式`下的HTTPS以及`port`设置
+- `CSS`动画设置
+- 其他外部插件的设置
+- `PWA`、`manifest`等设置
+
+### `quasar.config.js` ###
+
+- `plugins`
+
+以前在`Vue`安装其他的`plugin`会在`main.js`里引入，而在`Quasar`就会取代`main.js`成为全部配置文件。
+
+- `css`
+
+CSS的引入都会放在这个文件，预设的位置`/src/css`，所需的CSS库已经准备好，可以直接使用。
+
+- `extra`
+
+这里是设置是否引入[quasar-extras](https://github.com/quasarframework/quasar-extras)的内容。
+
+|Package|name|说明|
+|-------|----|----|
+|Roboto Font|`roboto-font`|Material主题的建议字体|
+|Roboto Font Latin Extended|`roboto-font-latin-ext`|Material主题的建议字体|
+|[Material Icons](https://material.io/tools/icons/?style=baseline)|`material-icons`|Material风格的`icon`|
+|MDI (Material Design Icons)|`mdi`|Material风格的`icon`扩展|
+|Font Awesome|`fontawesome`|自由选择`icon`|
+|[Ionicons](https://ionicons.com/)|`ionicons`|`ionicons`的`icon`|
+|Animate.css|`animations`|网页组件动画|
+
+
 
 
 
