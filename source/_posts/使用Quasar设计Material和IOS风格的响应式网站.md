@@ -225,7 +225,7 @@ List中可用组件，这些组件需要自己去配置文件中自行引入。
 - `QItemMain`中间的区块
 - `QItemTitle`区块中的标题
 
-## 旅游网站-Carousel(页面轮播) ##
+## 旅游网站-Carousel页面轮播 ##
 
 ### 建立新的首页 ###
 
@@ -439,12 +439,184 @@ countries: [
   {label: '深圳市', icon: 'fas fa-map-marker-alt'},
   {label: '珠海市', icon: 'fas fa-map-marker-alt'},
   {label: '[网美景点]香山公园，秋季赏枫胜地', stamp: '北京市'},
-  {label: '珠海长隆[海豚剧场]精彩不容错过！精彩变身演出抢先看', stamp: '珠海，长隆', rightTextColor: 'pink-13'}
+  {label: '珠海长隆[海豚剧场]精彩不容错过！精彩变身演出抢先看', 
+   stamp: '珠海，长隆', rightTextColor: 'pink-13'}
 ]
 ```
 
+### 自定义过滤器`filter` ###
 
+在`q-autocomplete`中加入`filter`：
 
+```html
+<q-autocomplete
+  :static-data="{field: 'label', list: countries}"
+  :filter="advFilter"
+/>
+```
 
+引入`lodash`处理`filter`。
 
+## 旅游网站-Popover弹出框 ##
+
+### 加入Popover组件 ###
+
+在`quasar.config.js`中引入`QPopover`。[Popover](http://www.quasarchs.com/components/popover.html)
+
+- `no-focus`不设焦点
+- `fit`弹出框跟输入框等长
+- `v-show="!search"`弹框和候选框不同时出现
+
+### 内容排版 ###
+
+使用`FlexCSS`来进行排版。
+
+```html
+<div class="row viewList">
+  <div class="col-sm-4 col-xs-12"></div>
+  <div class="col-sm-4 col-xs-12"></div>
+  <div class="col-sm-4 col-xs-12"></div>
+</div>
+```
+
+设配手机端，在CSS底部加入：
+
+```css
+@media (max-width: 576px) {
+  .viewList {
+    width: 280px
+  }
+}
+```
+
+解决在手机像素下原来`Popover`不能自动`fix`的问。这里应该是小于Popover的`fix`的**最小宽度**。
+
+### 设置内容(List&Item) ###
+
+列表类直接用`list`做最快。
+
+```html
+<div class="col-sm-4 col-xs-12">
+  <q-list>
+    <q-list-header>热门目的地</q-list-header>
+    <q-item>
+      <q-item-main>珠海</q-item-main>
+    </q-item>
+  </q-list>
+</div>
+```
+
+### 加入右侧Icon及文字 ###
+
+在`src/components`下新建`LIcon.vue`，提升组件复用。
+
+主要使用了`q-icon`来引入[Font Awesome](http://www.fontawesome.com.cn/)的`icon`。
+
+### 在原来的页面引入子组件 ###
+
+> 具体代码：
+> [SectionCarousel.vue](https://github.com/whjin/make-quasar/blob/master/src/pages/Index/SectionCarousel.vue)
+> [src/components/LIcon.vue](https://github.com/whjin/make-quasar/blob/master/src/components/LIcon.vue)
+
+## 旅游网站-Cards卡片 ##
+
+### 建立并引入第二个区块 ###
+
+在`src/pages/Index`下新建`SectionCards.vue`组件，用来作为卡片区块。
+
+在`Index.vue`中引入`SectionCards.vue`。
+
+### 区块内版面规划 ###
+
+```html
+<div class="row">
+  <div class="col-12"><b>本月最精选</b></div>
+  <div class="col-lg-3 col-sm-6 col-xs-12">卡片一</div>
+  <div class="col-lg-3 col-sm-6 col-xs-12">卡片二</div>
+  <div class="col-lg-3 col-sm-6 col-xs-12">卡片三</div>
+  <div class="col-lg-3 col-sm-6 col-xs-12">卡片四</div>
+</div>
+```
+
+### 制作卡片 ###
+
+卡片内的内容都会大量重复，所以直接把卡片独立成一个组件。
+
+在`src/components/`下新建一个`LCard.vue`。
+
+> 在`quasar.config.js`中引入卡片组件[Cards](http://www.quasarchs.com/components/card.html)
+
+```javascript
+framework: {
+  components: [
+    'QCard',
+    'QCardTitle',
+    'QCardMain',
+    'QCardMedia',
+    'QCardSeparator',
+    'QCardActions'
+  ]
+}
+```
+
+卡片主要分成三个部分：
+
+- `q-card-media`放照片影片的区块
+- `q-card-title`卡片的标题
+- `q-card-main`卡片的主内容
+- `q-card-actions`用来放按钮等操作的区块
+- `q-card-separator`分隔线
+
+在`SectionCards.vue`中引入`LCard.vue`。
+
+```html
+<div class="col-lg-3 col-sm-6 col-xs-12">
+  <l-card/>
+</div>
+```
+
+```javascript
+import LCard from 'src/components/LCard.vue'
+export default {
+  components:{
+    LCard
+  },
+}
+```
+
+### 加上Icon ###
+
+继续补上**评分**和**地标**的`Icon`。
+
+### 让LCard的文字能从父组件引入 ###
+
+让`LCard.vue`能够动态获取数据：
+
+<p class="codepen" data-height="365" data-theme-id="0" data-default-tab="html" data-user="whjin" data-slug-hash="OqJpKq" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="Quasar-LCard.vue">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/OqJpKq/">
+  Quasar-LCard.vue</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+### 在SectionCards设置数据 ###
+
+新增一个`data`数据`monthBestList`，然后在`template`模板中使用`v-for`获取数据并显示。
+
+```html
+<template v-for="(data,index) in monthBestList">
+  <div class="col-lg-3 col-sm-6 col-xs-12 q-pa-sm" :key="index">
+    <l-card
+      :title="data.title"
+      :rate="data.rate"
+      :comment="data.comment"
+      :view="data.view"
+      :locate="data.locate"
+      :image="data.image"
+    />
+  </div>
+</template>
+```
+
+### 调整CSS及layout ###
 
