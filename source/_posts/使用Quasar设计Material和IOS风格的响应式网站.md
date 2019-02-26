@@ -55,7 +55,7 @@ comments:
 
 - `css`
 
-CSS的引入都会放在这个文件，预设的位置`/src/css`，所需的CSS库已经准备好，可以直接使用。
+CSS的引入都会放在这个文件，默认的位置`/src/css`，所需的CSS库已经准备好，可以直接使用。
 
 - `extra`
 
@@ -73,7 +73,7 @@ CSS的引入都会放在这个文件，预设的位置`/src/css`，所需的CSS�
 
 - `scopeHoiting`
 
-预设`true`，用来提升`webpack`运行时的性能
+默认`true`，用来提升`webpack`运行时的性能
 
 - `VueRouterMode`
 
@@ -81,7 +81,7 @@ CSS的引入都会放在这个文件，预设的位置`/src/css`，所需的CSS�
 
 - `vueCompiler`
 
-包含两种Vue的编译模式`vue runtime`+`compiler`，预设只有`runtime-only`运行时编译
+包含两种Vue的编译模式`vue runtime`+`compiler`，默认只有`runtime-only`运行时编译
 
 - `gzip`
 
@@ -716,4 +716,271 @@ CSS补上左右`margin 5%`让页面看起来不会太满。
 评分组件[Rating](http://www.quasarchs.com/components/rating.html)
 
 
-## Vue Quasar表单组件-Field ##
+## 表单组件-Field ##
+
+> [表单字段(Field)](http://www.quasarchs.com/components/field.html)
+
+Field的组件有`QInput`、`QSeclet`、`QDatetime`、`QChipsInput`
+
+### 引入组件 ###
+
+在`quasar.config.js`中引入组件
+
+### 基本范例 ###
+
+```html
+<q-field
+  label="信箱">
+  <q-input suffix="@gmail.com" v-model="model"/>
+</q-field>
+```
+
+- `label`设置标题文字
+- `icon`设置标题的`icon`
+- `icon-color`设置标题`icon`的颜色
+- `helper`组件地下的辅助文字
+- `error`控制组件在错误时会变成红色警示
+- `error-label`错误时会显示的文字
+- `warning`控制组件是否为警告状态
+- `warning-label`同`error-label`
+- `count`显示目前输入多少文字
+- `inset`用来为没有`icon/label`的栏位留空
+- `orientation`组件的排列方向（水平`horizontal`/垂直`vertical`）
+- `label-width`文字区块的宽度（以`12`格宽度划分）假设文字的宽度要和输入一样长，则设定为`6`
+- `dark`是文字反白，适用在暗色背景下
+
+## 表单组件-Chips Input ##
+
+> [Chips Input](http://www.quasarchs.com/components/chips-input.html)
+
+```html
+<q-chips-input float-label="兴趣" v-model="model" />
+```
+
+```javacript
+export default {
+  data() {
+    return {
+      model: []
+    }
+  }
+}
+```
+
+### 外观属性 ###
+
+- `chips-color`改变`chips`的颜色
+- `chips-bg-color`改变`chips`的背景颜色
+- `add-icon`替换输入时显示在右边的`enter`按钮`icon`
+
+### 基本属性 ###
+
+- `prefix`加入前缀文字（不影响`array`内的值）
+- `suffix`加入后缀文字，可以跟前缀一起用
+- `hide-underline`移除原本输入框的底线
+- `no-parent-field`如果外面套有QField，可以避免跟QField的效果连结
+- `upper-case`自动转大写
+- `lower-case`自动转小写
+
+**大部分组件都会重复的基本属性**
+
+- `float-label`悬浮标题
+- `stack-label`固定式标题
+- `color`组件颜色
+- `inverted`是否有背景色
+- `inverted-light`改善亮色背景下组件的显示
+- `dark`改善暗色背景下组件的显示
+- `error`错误
+- `warning`警告
+- `disable`跟`readonly`类似，但是会有灰键效果
+
+### 事件属性 ###
+
+- `@input(newVal)`输入文字的同事就会触发
+- `@change(newVal)`数组数值改变触发
+- `@clear(clearVal)`数组被清空时触发
+- `@duplicate(val)`输入重复的值时触发
+- `@add(val)`输入时触发
+- `@remove({index, value})`其中一个组件被删除时触发
+
+### 方法属性(Vue Methods) ###
+
+这里的用法通常都是在组件中加入`red`属性，然后再其他地方使用`this.$refs`来对这些组件进行操作。
+
+- `add(value)`加入值到组件的数组中
+- `remove(index)`删除指定索引的值
+- `focus()`聚焦在组件上
+- `select()`选择组件
+- `clear()`清除组件中数组的值
+
+```html
+<q-chips-input ref="myChipInput" />
+```
+
+```javascript
+addSomething() {
+	this.$refs.myChipInput.add('Hello Quasar')
+}
+```
+
+## 表单组件-Radio ##
+
+> 引入组件`QRadio`，[单选框(Radio)](http://www.quasarchs.com/components/radio.html)
+
+### 与QField一起使用 ###
+
+```html
+<q-field
+        label="黄金周去哪玩？"
+        orientation="vertical">
+    <q-radio v-model="model" label="去杭州" val="hangzhou"/>
+    <q-radio v-model="model" label="去北京" val="beijing"/>
+    <q-radio v-model="model" label="去成都" val="chengdu"/>
+</q-field>
+```
+
+### 基本属性 ###
+
+- `val`存储绑定变量的值
+- `label`组件上的文字
+- `left-label`设定为`true`时，文字会改变显示在选项的左边
+- `checked-icon`改变选取时的icon
+- `unchecked-icon`改变未选取时的icon
+- `color`改变组件的颜色
+- `keep-color`没选取时也会有颜色（默认是灰色）
+- `readonly`只读属性
+- `disable`禁用
+- `dark`在暗色背景时，凸显组件文字
+- `no-focus`不会触发聚焦事件
+
+### 基本事件 ###
+
+- `@input`选取时触发
+- `@blur`失去焦点（点到其他地方）时触发
+- `@focus`聚焦（点选该组件）时触发
+
+## 表单组件-Checkbox ##
+
+> [复选框(Checkbox)](http://www.quasarchs.com/components/checkbox.html)
+
+### 引入组件 ###
+
+在`quasai.config.js`中引入`QCheckbox`。
+
+复选框需要绑定数据类型为`Array`，也需要和`QField`一起使用。
+
+### 基本属性 ###
+
+- `val`数值，加入到`v-model`绑定的变量中
+- `true-value`如果`model`不是数组，在选取时会给`model`值`true`，用来取代`true`
+- `false-value`同上解析
+- `indeterminate-value`用来替换`null`
+- `toggle-indeterminate`使点击可以让状态在以上三个中转换
+
+## 表单组件-Toggle ##
+
+> [切换键Toggle](http://www.quasarchs.com/components/toggle.html)
+
+### 引入组件 ###
+
+在`quasar.config.js`中引入`QToggle`
+
+### 基本属性 ###
+
+- `val`，`v-model`是`Array`，会加在`Array`内
+- `icon`如果底下两个（`checke-icon`、`unchecked-icon`）icon 会被覆盖掉
+
+## 表单组件-Option Group ##
+
+> [选项组option-group](http://www.quasarchs.com/components/option-group.html)
+
+把选项写进一个`Array`中，然后直接用`v-for`全部渲染出来。
+
+### 引入组件 ###
+
+每一步都是一样的，在`quasar.config.js`中引入`QOptionGroup`。
+
+### 基本范例 ###
+
+**CheckBox**
+
+```html
+<template>
+    <q-field orientation="vertical" label="要选购的商品">
+        <q-option-group
+                type="checkbox"
+                v-model="model"
+                :options="optionList"
+        />
+    </q-field
+    >
+</template>
+
+<script>
+    export default {
+        name: "index",
+        data() {
+            return {
+                model: [],
+                optionList: [
+                    {label: '鸡蛋', value: 'egg'},
+                    {label: '海带', value: 'seaweed'},
+                    {label: '鸡腿', value: 'lag'},
+                    {label: '牛肉', value: 'beef'}
+                ]
+            }
+        }
+    }
+</script>
+```
+
+**`toggle`、`radio`和`checkbox`类似，只需要修改`type`属性值即可**
+
+## 表单组件-Datetime ##
+
+时间日期输入框Datetime，有Material和IOS两种风格。
+
+### 引入组件 ###
+
+有两个组件需要引入，一个是输入时显示，一个是默认就是显示的。分别为：
+
+日期时间输入[Datetime Input](http://www.quasarchs.com/components/datetime-input.html)
+
+```javascript
+framework: {
+  components: ['QDatetime']
+}
+```
+
+日期时间选择器[Datetime Picker](http://www.quasarchs.com/components/datetime-picker.html)
+
+```javascript
+framework: {
+  components: ['QDatetimePicker']
+}
+```
+
+### 基本操作 ###
+
+```html
+// Datetime Input
+<q-datetime v-model="model" type="date"/>
+
+// Datetime Picker
+<q-datetime-picker v-model="model" type="date"/>
+```
+
+### 基本属性 ###
+
+- **`type`**，一共有三个值，默认是`date`
+    1. `date`单纯日期
+    2. `time`单纯时间
+    3. `datetime`时间+日期
+
+- **`minimal`**，不显示标题
+
+- **`min max`**，设置能够选择的日期时间范围
+
+```html
+<q-datetime v-model="model" type="datetime" max="2019/02/27 2:30"/>
+```
