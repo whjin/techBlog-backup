@@ -620,3 +620,100 @@ export default {
 
 ### 调整CSS及layout ###
 
+## 旅游网站-制作景点详情页 ##
+
+在`src/pages`下新建`place`文件夹，并在此文件夹下新建`Index.vue`作为文章的主要页面。
+
+### 设置Vue Router ###
+
+要进行页面导航/切换需要用到Vue Router。
+
+在`router/routes.js`中加入导航：
+
+```javascript
+const routes = [
+  {
+    path: '/',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      {path: '', component: () => import('pages/Index')},
+      {path: 'Place', component: () => import('pages/Place')}
+    ]
+  }
+];
+```
+
+在`http://localhost:8080/#/place`中查看效果。
+
+### 加入视差(Parallax)组件 ###
+
+> [视差(Parallax)](http://www.quasarchs.com/components/parallax.html)
+
+在`quasar.config.js`中引入`QParallax`组件。
+
+```html
+<template>
+  <q-page>
+    <q-parallax :src="localData.image" :height="400">
+      <p>{{ localData.title }}</p>
+    </q-parallax>
+  </q-page>
+</template>
+```
+
+### 主题部分的页面排版 ###
+
+按照8格+4格进行排版：
+
+```html
+<div class="row place-main">
+  <div class="col-8"></div>
+  <div class="col-4"></div>
+</div>
+```
+
+CSS补上左右`margin 5%`让页面看起来不会太满。
+
+```css
+.place-main {
+  margin-left 5%
+  margin-right 5%
+}
+```
+
+### 设置左边画面 ###
+
+这里要用Quasar的面包屑[BreadCrumbs](http://www.quasarchs.com/components/breadcrumbs.html)组件。
+
+在`quasar.config.js`中引入：
+
+```javascript
+'QBreadcrumbs',
+'QBreadcrumbsEl',
+```
+
+### 加上景点信息及评分的排版 ###
+
+这里按照`8格+4格`设定，左侧栏要设为文字靠右对齐。
+
+### 加上景点信息 ###
+
+引入`LIcon.vue`图标组件：
+
+```html
+<div class="col-8 info-left">
+  <l-icon 
+    class="q-mt-sm" 
+    :text="'景点编号：' + localData.id" 
+    :icon="'fas fa-tag'" 
+    :color="'grey'"/><br>
+  ...
+</div>
+```
+
+### 加上评分 ###
+
+评分组件[Rating](http://www.quasarchs.com/components/rating.html)
+
+
+## Vue Quasar表单组件-Field ##
