@@ -972,15 +972,539 @@ framework: {
 
 ### 基本属性 ###
 
-- **`type`**，一共有三个值，默认是`date`
+- `type`，一共有三个值，默认是`date`
     1. `date`单纯日期
     2. `time`单纯时间
     3. `datetime`时间+日期
 
-- **`minimal`**，不显示标题
+- `minimal`，不显示标题
 
-- **`min max`**，设置能够选择的日期时间范围
-
+- `min max`，设置能够选择的日期时间范围
 ```html
 <q-datetime v-model="model" type="datetime" max="2019/02/27 2:30"/>
 ```
+
+- `format-model`存储的时间格式，有四种选择：
+    1. `auto`2019-02-27T12:01:00.000+08:00
+    2. `date`"2019-02-27T04:00:00.000Z"
+    3. `number`1541044860000
+    4. `string`2019-02-27T12:01:00.000+08:00
+
+- `format24h`设为24时制的时钟
+
+### 基本方法 ###
+
+**Input**
+
+- `show()`显示输入
+- `hide()`隐藏输入
+- `toggle()`切换输入
+- `clear()`清空model
+
+**Picker**
+
+- `setYear(val)`设置年
+- `setMonth(val)`设置月
+- `setDay(val)`设置日
+- `setHour(val)`设置时
+- `setMinute(val)`设置分
+- `setView(val)`设置要显示的模式
+- `clear()`清空model
+
+## 表单组件-Editor ##
+
+### 内建的文章编辑器Editor ###
+
+> [编辑器（WYSIWYG）](http://www.quasarchs.com/components/editor---wysiwyg.html)
+
+在`quasar.config.js`中引入`QEditor`组件。
+
+```html
+<q-editor v-model="model"/>
+```
+
+主要设置页面的属性有三个：
+
+- `Toolbar`
+```html
+<q-editor
+  v-model="model"
+  :toolbar="[
+      ['bold','italic','strike','underline'],
+      ['hr','link'],
+      ['fullscreen'],
+      ['print']
+    ]"
+/>
+```
+
+- `Definitions`
+    - `label`要显示的文字
+    - `icon`要显示的icon
+    - `tip`小提示
+    - `cmd`如果不想用默认的功能名称，可以用这个绑回你要的功能
+    - `handler`自定义`methods`的`function`名称
+    ```javascript
+    save: {
+      label:'保存',
+      handler: functionName
+    }
+    ```
+    - `disable`禁用
+
+```html
+<q-editor
+        v-model="model"
+        :toolbar="[
+        ['bold','italic','strike','underline'],
+        ['hr','link'],
+        ['fullscreen'],
+        ['print']
+    ]"
+        :definitions="{
+            bold:{label:'粗体',icon:null,tip:'这是粗体'}
+            }"
+/>
+```
+
+- `Font`
+
+```html
+<q-editor v-model="model"
+          :toolbar="[
+        ['arial','arial_black','comic_sans'],
+    ]"
+          :fonts="{
+              arial:'Arial',
+              arial_black:'Arial Black',
+              comic_sans:'Comic Sans MS'
+              }"
+/>
+```
+
+### 基本事件 ###
+
+- `@input`输入时触发
+- `@fullscreen(true/false)`切换全屏时触发
+
+## 表单组件-Knob旋转按钮 ##
+
+> [旋转按钮（Knob)](http://www.quasarchs.com/components/knob.html)
+
+在`quasar.config.js`中引入`QKnob`组件。
+
+```html
+<q-knob
+        v-model="model"
+        :min="0"
+        :max="25"
+>
+    <q-icon class="q-mr-xs" name="volume_up"/>
+    {{model}}
+</q-knob>
+```
+
+**属性**
+
+- `size`调整组件的大小，默认`120px`
+- `step`数值的间距
+- `decimals`小数点显示的位数
+- `min max`最小值和最大值
+- `color`、`track-color`颜色、未到达的旋转轴颜色
+- `line-width`线条的宽度，默认`6px`
+
+**事件**
+
+- `@input(val)`改变时立即触发
+- `@change(val)`改变时触发
+- `@drag-value(val)`拖动时就会触发
+
+## 弹窗-Action Sheet ##
+
+> [操作表(ActionSheet)](http://www.quasarchs.com/components/action-sheet.html)
+
+在`quasar.config.js`中引入`ActionSheet`组件，有Material和IOS两种风格。
+
+**`pluginS`形式**
+
+```javascript
+framework: {
+  plugins: ['ActionSheet']
+}
+```
+
+**`components`形式**
+
+```javascript
+framework: {
+  components: ['QActionSheet']
+}
+```
+
+### 作为Plugins的使用方法 ###
+
+**Vue内**
+
+```javascript
+this.$q.actionSheet(configObj)
+```
+
+**Vue外**
+
+```javascript
+import { ActionSheet } from 'quasar';
+ActionSheet.create(configObj)
+```
+
+```javascript
+this.$q.actionSheet({
+    title: '操作选择',
+    grid: true, //使用格状排版（一排三个）
+    dismissLabel: '取消', //取消按钮的文字 只有IOS主题下可用 默认是cancel
+    actions: [
+        {
+            label: '抓虫',
+            color: 'green',
+            icon: 'fas fa-bug',
+            handler() {
+                console.log('抓虫大师')
+            }
+        },
+        {
+            label: '分享到微博',
+            color: 'blue',
+            icon: 'fas fa-weibo'
+        },
+        {
+            label: '请人帮忙',
+            color: 'black',
+            icon: 'fas fa-alipay'
+        }
+    ]
+}).then(action => {}).watch(() => {});
+```
+
+### 作为Component的使用方法 ###
+
+跟上面的操作基本上一样，只是能够多监听`@show`和`@hide`时间。
+
+**事件**
+
+- `@ok`点选选项时触发
+- `@cancel`取消时触发
+- `@show`显示时触发
+- `@hide`隐藏时触发
+- `@escape-key`按Esc时触发
+
+## 弹窗-Dialog ##
+
+基本跟上面的Action Sheet一样的操作方法。
+
+<p class="codepen" data-height="365" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="GegPVd" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="弹出窗口-Dialog">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/GegPVd/">
+  弹出窗口-Dialog</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+### 作为Component的使用方法 ###
+
+在配置文件中引入`QDialog`组件。
+
+```html
+<q-dialog>
+    <span slot="title">标题</span>
+    <span slot="message">正文</span>
+    <span slot="body">主体</span>
+    <span slot="buttons">按钮</span>
+</q-dialog>
+```
+
+## 弹窗-Modal ##
+
+> [模态框(Modal)](http://www.quasarchs.com/components/modal.html)
+
+引入`QModal`组件，另外加入`directives`的`CloseOverlay`。
+
+使用按钮或是`method`将`modal`设为`true`才能打开`modal`。
+
+**全页显示**
+
+```html
+<q-btn @click="model=true">Open</q-btn>
+<q-modal v-model="model" content-css="padding: 50px" maximized>
+    <h4>想去哪里玩？</h4>
+    <p>自由行·出国度假</p>
+    <p>泰国、首尔、珠海、九寨沟</p>
+    <q-btn
+            class="q-mt-lg"
+            color="primary"
+            @click="model=false"
+            label="订购行程"
+    />
+</q-modal>
+```
+
+**最小窗口**`minimized`
+
+设置`position`后会自动清除`content-css`定义的`css`，所以要在里面多一个`div`来做`padding`。
+
+```html
+<q-modal v-model="model" minimized>
+    <div style="padding: 20px">
+        ...
+    </div>
+</q-modal>
+```
+
+### 基本属性 ###
+
+- `minimized`，`maximized`设置窗口最小化或是最大化
+- `no-route-dismiss`、`no-esc-dismiss`、`no-backdrop-dismiss`分别为控制换页、按下Esc、按黑色背景是否会触发开闭事件
+- `content-css`，`content-classes`，Modal内的CSS及class，在设置了`position`后会无效
+- `position`设置弹窗出来的位置
+- `position-classes`设置`position`后就要用这个来设`class`，默认是`items-center`，`justify-center`
+- `transition`，`enter-class`，`leave-class`可以用自定义的CSS来做出场的动画
+- `no-refocus`是否让关闭窗口时聚焦回到打开窗口前的最后一个组件
+
+### Vue方法 ###
+
+控制打开关闭窗口的一些方法，要搭配`this.$refs.窗口名称`来使用。
+
+- `show`
+- `hide`
+- `toggle`
+
+## 弹窗-Notify ##
+
+> [通知框（Notify）](http://www.quasarchs.com/components/notify.html)
+
+<p class="codepen" data-height="365" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="wOaGJO" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="弹窗-Notify">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/wOaGJO/">
+  弹窗-Notify</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+### 在Vue外使用 ###
+
+```javascript
+import {Notify} from 'quasar';
+
+Notify.create('已保存');
+//方式二
+Notify.create({
+    message: '已保存'
+});
+```
+
+## 进度条-Ajax Bar&Loading Bar  ##
+
+> [Ajax栏(Ajax Bar)](http://www.quasarchs.com/components/ajax-bar.html)
+
+在`quasar.config.js`中引入`QAjaxBar`组件。
+
+### 基本使用 ###
+
+### Ajax Bar ###
+
+因为在每个页面都会用到，所以放在最上层`App.vue`。
+
+```html
+<div id="q-app">
+    <router-view></router-view>
+    <a-ajax-bar/>
+</div>
+```
+
+- `position`设置组件位置
+- `size`载入条的宽度，默认`4px`
+- `color`默认`red`
+- `reverse`使进度方向相反
+
+#### 基本事件 ####
+
+- `@start`开始动作时触发
+- `@stop`结束动作时触发
+
+#### 基本方法 ####
+
+- `start()`
+- `stop()`
+
+### Loading Bar ###
+
+## 进度条-Inner Loading ##
+
+> [内部加载(Inner Loading)](http://www.quasarchs.com/components/inner-loading.html)
+
+### 注意事项 ###
+
+使用InnerLoading时会作用在`relative-position`这个`class`下，如果没有添加这个会变成整页。
+
+### 基本操作 ###
+
+**index.vue**
+
+<p class="codepen" data-height="265" data-theme-id="0" data-default-tab="html" data-user="whjin" data-slug-hash="rRVJYL" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="Quasar-InnerLoading-Index.vue">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/rRVJYL/">
+  Quasar-InnerLoading-Index.vue</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+**MyField.vue**
+
+<p class="codepen" data-height="265" data-theme-id="0" data-default-tab="html" data-user="whjin" data-slug-hash="XGbZEN" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="Quasar-InnerLoading-MyField.vue">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/XGbZEN/">
+  Quasar-InnerLoading-MyField.vue</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+**效果**
+
+![](https://i.imgur.com/d5QwW8f.jpg)
+
+![](https://i.imgur.com/0nMNKFM.jpg)
+
+## CSS Helpers ##
+
+### 空间排版CSS Spacing Classes ###
+
+> [CSS间距类CSS Spacing Classes](http://www.quasarchs.com/components/spacing.html)
+
+### 基本范例 ###
+
+```css
+q-ma-xs
+```
+
+- `q`作为前缀
+- `ma`：
+    - `m`类型，`margin`
+    - `a`方向，`all`
+- `xs`范围的大小跟`flex css`一致
+
+### 语法 ###
+
+```
+q-[类型][方向]-[大小]
+```
+
+- 类型
+    - `m`（`margin`向外扩）
+    - `p`（`padding`向内扩）
+
+- 方法
+    
+总共有7种选择，除了基本的`t(top)`，`r(right)`，`l(left)`、`b(bottom)`，`a(all)`之外，还有两种`x(left+right)`，`y(top+bottom)`。
+
+- 大小
+
+有`none`，`auto`(只能用在`margin`),`xs`，`sm`，`md`，`lg`，`xl`。
+
+### 阴影CSS Shadows ###
+
+> [CSS阴影（立面图）CSS Shadows](http://www.quasarchs.com/components/shadows.html)
+
+### 可视范围CSS Visibility ###
+
+> [可视范围CSS Visibility](http://www.quasarchs.com/components/visibility.html)
+
+### 位置排版CSS Positioning Classes ###
+
+> [CSS定位类CSS Positioning Classes](http://www.quasarchs.com/components/positioning.html)
+
+## 自定义颜色 ##
+
+> [调色板(Color Palette)](http://www.quasarchs.com/components/color-palette.html)
+
+在`src/css/app.styl`文件中自定义全局CSS
+
+### 新增颜色 ###
+
+```css
+.text-redsp
+  color: #D03F38
+.bg-redsp
+  background: #D03F38  
+```
+
+这里`text`和`bg`需要同时设定。
+
+### 使用 ###
+
+```html
+<q-btn color="redsp">Open</q-btn>
+```
+
+## 多国语系I18n ##
+
+### Quasar的I18n ###
+
+> [多国语系(I18n)](http://www.quasarchs.com/components/internationalization.html)
+
+在`quasar.config.js`中设置：
+
+```javascript
+framework: {
+  i18n: 'zh-hans'
+}
+```
+
+### 读取当前语系 ###
+
+```javascript
+let lang = this.#q.i18n.getLocal()
+```
+
+### 动态设置 ###
+
+Quasar的切换语系不像是传统的`vue-i18n`直接换就能用，必须重新载入新语系的语系档。
+
+```html
+<template>
+  <q-btn @click="setLang('zh-hans')">简体中文</q-btn>
+</template>
+
+<script>
+  export default {
+    name: "I18n",
+    methods: {
+      setLang(lang) {
+        import('quasar-framework/i18n/${lang}').then(lang => {
+          this.$q.i18n.set(lang.default)
+        })
+      }
+    }
+  }
+</script>
+```
+
+### Vue-I18n ###
+
+Vue-I18n在`src/i18n`里面，参照已经设定的内容添加自己想要的语系。
+
+### 应用 ###
+
+```html
+<p>{{$t('apple')}}</p>
+```
+
+```html
+<q-btn @click="setLang()" :label="$t('setting')"></q-btn>
+```
+
+### 动态切换语系 ###
+
+```javascript
+methods: {
+    setLang() {
+        this.$i18m.local = 'zh-CN'
+    }
+}
+```
+
+> GITHUB：[使用Quasar设计旅游网站](https://github.com/whjin/make-quasar)
+> 文章链接：[使用Quasar设计Material和IOS风格的响应式网站](https://whjin.github.io/blog/2019/02/23/%E4%BD%BF%E7%94%A8Quasar%E8%AE%BE%E8%AE%A1Material%E5%92%8CIOS%E9%A3%8E%E6%A0%BC%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BD%91%E7%AB%99/)
