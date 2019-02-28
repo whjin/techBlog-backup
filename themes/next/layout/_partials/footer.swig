@@ -5,13 +5,13 @@
 #} {{ next_url('http://www.miitbeian.gov.cn', theme.footer.beian.icp + ' ') }}{#
 #}{% endif %}{#
 #}
-  <div>
-    &copy;2015 - {% if theme.footer.since and theme.footer.since != current %}{{ theme.footer.since }} – {% endif %}{#
+  <div class="app-footer">
+    &copy;{% if theme.footer.since and theme.footer.since != current %}{{ theme.footer.since }} – {% endif %}{#
 #}<span itemprop="copyrightYear">{{ current }}</span>
     <span class="author" itemprop="copyrightHolder">
       <span class="with-love" id="animate">
         <i class="fa fa-{{ theme.footer.icon.name }}"></i>
-      </span><a href="https://whjin.github.io" target="_blank">寒青</a>&nbsp;|&nbsp;访问</span>
+      </span><a href="https://whjin.github.io" target="_blank">寒青</a>&nbsp;|&nbsp;<i class="fa fa-eye"></i></span>
     <span id="busuanzi_container_site_pv" style="display: inline;">
      <a href="http://service.ibruce.info/" target="_blank"><span id="busuanzi_value_site_pv"></span></a> 次
      <a href="http://service.ibruce.info/" target="_blank"><span id="busuanzi_value_site_uv"></span></a> 人
@@ -19,7 +19,7 @@
   </div>
 
   {% if config.symbols_count_time.total_symbols %}
-    <span class="post-meta-divider">|</span>
+    {#<span class="post-meta-divider">|</span>#}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
@@ -70,12 +70,6 @@
         </div>
       {% endif %}
     </div>#}
-
-  <div class="theme-info">
-    <div class="powered-by"></div>
-    <i class="fa fa-bar-chart"></i>
-    <span>博客全站共<span class="post-count">{{ totalcount(site) }}</span>字</span>
-  </div>
 </div>
 
 
