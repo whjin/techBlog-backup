@@ -8,6 +8,8 @@ comments:
 
 # React项目指导 #
 
+<!--more-->
+
 ## 使用`webpack`需要安装的依赖 ##
 
 1. `webpack`，`webpack-cli`，`react`，`react-dom`
@@ -37,8 +39,6 @@ comments:
       hints: false
     }
     ```
-
-<!--more-->
 
 ## `Component` ##
 
@@ -206,6 +206,54 @@ this.setState({time: new Date().toLocaleTimeString()})
 3. 输出后会执行`componentDidMount()`进行一次调用。
 4. 当组件内部的`state`值被修改时执行`componentDidUpdate()`。
 5. 当组件被移除时会执行`componentWillUnmount()`的内容一次。
+
+**`componentDidMount()`**
+
+1. Component已经`render`到实体DOM阶段完成的时候触发；
+2. 此`method`只会被呼叫一次；
+3. 在这裡可以`setState()`，并会再次重新`render`、`component`一次；
+4. 可以放入具有`side effect`的`function`，如`setInterval`、呼叫API等等。
+
+**`componentWillUnmount()`**
+
+1.  Component即将从实体DOM阶段移除「之前」的时候触发；
+2.  也是只会被呼叫一次；
+3.  不可以在这裡使用`setState()`；
+4.  也可以放入具有`side effect`的`function`。
+
+```javacript
+class Clock extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTime: new Date().toLocaleString()
+    }
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(this.updateTime, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
+  }
+
+  updateTime = () => {
+    this.setState({
+      currentTime: new Date().toLocaleString()
+    })
+  };
+
+  render() {
+    const {currentTime} = this.state;
+    return (
+      <div className="clock">
+        <div>{currentTime}</div>
+      </div>
+    )
+  }
+}
+```
 
 ## `Component`的事件处理 ##
 
@@ -376,6 +424,47 @@ class EasyForm extends Component {
         <input type="submit" value="送出表单"/>
       </form>
     )
+  }
+}
+```
+
+### `refs`操作DOM ###
+
+```javascript
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      itemList: []
+    };
+    this.addFile = React.createRef();
+  }
+
+  addItem = () => {
+    const {itemList} = this.state;
+    const tempList = Object.assign([], itemList);
+    if (this.addFile.current.value !== '') {
+      tempList.push(this.addFile.current.value);
+    }
+    this.setState({
+      itemList: tempList
+    });
+    this.addFile.current.value = ''
+  };
+
+  render() {
+    const {itemList} = this.state;
+    return (
+      <div className="App">
+        <input type="text" name="addFile" ref={this.addFile}/>
+        <input type="button" onClick={this.addItem} value="ADD"/>
+        <ul className="list">
+          {itemList.map((item, index) =>
+            <li key={`item_${index}`}>{item}</li>
+          )}
+        </ul>
+      </div>
+    );
   }
 }
 ```
