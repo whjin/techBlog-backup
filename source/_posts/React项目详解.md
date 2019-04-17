@@ -255,6 +255,142 @@ class Clock extends Component {
 }
 ```
 
+### `component`各阶段的生命周期方法 ###
+
+1. 挂载（`Mounting`）：组件一开始呈现到真实网页的过程
+
+```javascript
+class LifeCycle extends Component {
+  constructor(props) {
+    super(props);
+    //  建构式，推进组件初始state设定，绑定方法，接受父级props的地方
+    //  只会被调用一次
+    //  不适合使用具有side effect的工作，如AJAX调用
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    //  React V16.3新增的生命周期方法
+    //  在组件建构之后,render()被调用之前
+    //  每次接收新的props后回传object更新state；也可以回传null不做更新
+  }
+
+  UNSAFE_componentWillMount() {
+    //  即将在React V17中移除，不可与static getDerivedStateFromProps同时出现
+    //  在render()调用之后被调用，且之后被调用一次
+    //  会用到的地方仅在于服务器端的应用
+    //  适合设定初始化数据的地方，不适合做有side effect的工作
+  }
+
+  render() {
+    //  在class component中「唯一」必要存在的方法
+    //  尽量pure，不应该改变component的state
+    //  如需要和browser有互动的话，将其放进componentDidMount()中
+    return (
+      <div></div>
+    )
+  }
+
+  componentDidMount() {
+    //  在render()被调用后，组件已经在真实DOM呈现之后被调用执行
+    //  只会被调用一次，适合执行AJAX、计时器设定、加入eventListener等有副作用的工作
+    //  调用setState()可能会再执行一次render()
+  }
+}
+```
+
+2. 更新（Updating）：使用者的操作中，组件的状态和属性被改变
+
+```javascript
+class LifeCycle extends Component {
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    //  即将在React V17中移除，不可与static getDerivedStateFromProps同时出现
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    //  React V16.3新增的新生命周期方法
+    //  在组件构建之后，render()被调用之前
+    //  每次接收新的props后回传object更新state；也可回传null不做更新
+    //  搭配componentDidUpdate，可以达到与componentWillReceivedProps的效果
+  }
+
+  shouldComponentUpdate() {
+    //  让使用者自定义是否进行component更新，预设都会默认更新
+    //  只有少部分的情况才会使用此方法，如进行复杂耗时的计算
+    //  尽量不要检查太过深层的值，也不适合执行具有side effect的工作
+  }
+
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
+    //  即将在React V17中移除，不可与static getDerivedStateFromProps同时出现
+    //  在组件即将更新「之前」调用
+    //  不能在此使用setState方法，若要改变请用getDerivedStateFromProps
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    //  在render之后，在最新的渲染前输出交给真实DOM前会立即执行
+    //  返回的值作为componentDidUpdate的第三个值
+    //  搭配componentDidUpdate，可以达到与componentWillUpdate的效果
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    //  会发生在更新「之后」被调用
+    //  如果shouldComponentUpdate回传的是false，就不会调用此方法
+    //  适合执行具有side effect的地方
+  }
+}
+```
+
+3. 卸载（Unmounting）：组件要移除真实DOM的阶段
+
+```javascript
+class LifeCycle extends Component {
+  componentWillMount() {
+    //  在组件即将要移除真实DOM时会执行
+    //  可以在这里做中断网络连接、清楚计时器、移除事件监听器
+    //  不适合使用setState方法
+  }
+}
+```
+
+#### `catch error` ####
+
+```javascript
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false
+    }
+  }
+
+  componentDidCatch(error, info) {
+    //  是error handle的方法，与挂载和更新阶段有密切关系
+    //  可以用来捕捉子组件的任何JavaScript的错误
+    //  可以记录这些错误，或是呈现在目前反馈用的操作界面上
+    //  不能在事件的callback上使用
+
+    //  显示在反馈的UI上
+    this.setState({hasError: true});
+    //  也可以用额外的错误记录服务
+    logErrorMyService(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong...</h1>
+    }
+    return this.props.children
+  }
+}
+```
+
+上面就是`component`可以使用的生命周期方法，最常用主要是这些：
+
+1. `constructor()`
+2. `render()`
+3. `componentDidMount()`
+4. `compoinentDidUpdate()`
+5. `componentWillUnmount()`
+
 ## `Component`的事件处理 ##
 
 1. 取得触发事件的DOM
