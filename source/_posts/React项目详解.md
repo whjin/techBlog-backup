@@ -8,9 +8,9 @@ comments:
 
 # React项目指导 #
 
-<!--more-->
-
 ## 使用`webpack`需要安装的依赖 ##
+
+<!--more-->
 
 1. `webpack`，`webpack-cli`，`react`，`react-dom`
 2. `babel-loader`，`@babel/core`，`@babel/preset-env`，`@babel/preset-react`
@@ -221,7 +221,7 @@ this.setState({time: new Date().toLocaleTimeString()})
 3.  不可以在这裡使用`setState()`；
 4.  也可以放入具有`side effect`的`function`。
 
-```javacript
+```javascript
 class Clock extends Component {
   constructor(props) {
     super(props);
@@ -601,6 +601,131 @@ class App extends Component {
         </ul>
       </div>
     );
+  }
+}
+```
+
+# 实例：`TODOLIST` #
+
+**`TodoList.js`**
+
+```javascript
+class TodoList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: []
+    }
+  }
+
+  addItem = (text) => {
+    const {list} = this.state;
+    if (text !== '') {
+      const tempArr = list.concat({
+        id: list.length + 1,
+        text,
+        status: false
+      });
+      this.setState({list: tempArr})
+    }
+  };
+
+  toggleStatus = (id) => {
+    const {list} = this.state;
+    const tempArr = list.map(item => {
+      if (item.id.toString() === id.toString()) {
+        return ({
+          id: item.id,
+          text: item.text,
+          status: !item.status
+        })
+      }
+      return item;
+    });
+    this.setState({list: tempArr})
+  };
+
+  render() {
+
+    const {list} = this.state;
+    const divStyle = {
+      width: '250px',
+      margin: 'auto',
+      textAlign: 'left'
+    };
+    return (
+      <div style={divStyle}>
+        <TodoForm onAddItem={this.addItem}/>
+        <ul>
+          {list.map(item => (
+            <TodoItem
+              key={item.id}
+              id={item.id}
+              status={item.status}
+              onItemClick={this.toggleStatus}
+            >
+              {item.text}
+            </TodoItem>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+```
+
+**`TodoForm.js`**
+
+```javascript
+class TodoForm extends Component {
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+  }
+
+  formSubmit = (e) => {
+    const {onAddItem} = this.props;
+    e.preventDefault();
+    onAddItem(this.inputRef.current.value);
+    this.inputRef.current.value = ''
+  };
+
+  render() {
+    return (
+      <form onSubmit={this.formSubmit}>
+        <input type="text" name="todoItem" ref={this.inputRef} autoComplete="off"/>
+        <button type="submit" value="submit">submit</button>
+      </form>
+    )
+  }
+}
+```
+
+**`TodoItem.js`**
+
+```javascript
+class TodoItem extends Component {
+  handleItemClick = (e) => {
+    const {onItemClick} = this.props;
+    onItemClick(e.target.id)
+  };
+
+  render() {
+    const {children, id, status} = this.props;
+    return (
+      <li
+        id={id}
+        onClick={this.handleItemClick}
+        data-status={status}
+        style={
+          status ?
+            {textDecoration: 'line-through'} :
+            {textDecoration: 'none'}
+        }
+      >
+        {children}
+      </li>
+    )
   }
 }
 ```
