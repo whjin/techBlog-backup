@@ -1,9 +1,15 @@
 ---
-title: JS算法修炼
+title: JavaScript知多少
 date: 2018-11-13 07:57:49
 category: ["前端"]
-tags: ["javascript","算法"]
+tags: ["javascript"]
 ---
+
+# `this`与对象原型`prototype` #
+
+# `hoisting`状态提升 #
+
+在程序执行前，编译器先由上到下逐行将代码转为机器可读的命令，然后再执行编译后的指令。
 
 > 实现一个函数，可以返回输入参数是否为质数？
 
@@ -37,3 +43,30 @@ function isPrimeNumber(m) {
 4. 使用`split()`（字符串方法，输出为数组），如果内容为空，则返回的是整个字符串作为数组的第一个元素且数组只包含这一个元素。如果`split`传入内容为`''`，即`split('')`，则字符串里的每个字符分别作为输出数组的元素；
 5. 处理完毕需要再转换为字符串，使用`join()`（数组方法，输出位字符串），传入内容`join('')`；
 6. 使用正则表达式查找重复字符。
+
+> `classList.toggle(class,true/false)`
+
+<p class="codepen" data-height="365" data-theme-id="0" data-default-tab="html,result" data-user="whjin" data-slug-hash="MRdePN" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="js-toggleMenu">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/MRdePN/">
+  js-toggleMenu</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+# 事件处理 #
+
+```html
+<span onmouseover="over(this)" onmouseout="out(this)">Test</span>
+<div onmouseover="over(this)" onmouseout="out(this)">Line</div>
+```
+
+```javascript
+function over(element) {
+  element.style.color = 'red'
+}
+
+function out(element) {
+  element.style.color = 'blue'
+}
+```
+
