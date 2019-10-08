@@ -70,3 +70,88 @@ function out(element) {
 }
 ```
 
+# `jsonp`实现代码 #
+
+```javascript
+function JSONP({
+    url,
+    params,
+    callbackKey,
+    callback
+}) {
+    // 在参数里制定callback的名字
+    params = params || {}
+    params[callbackKey] = 'jsonpCallback'
+    // 预留callback
+    window.jsonpCallback = callback
+    // 拼接参数字符串
+    const paramKeys = Object.keys(params)
+    const paramString = paramKeys
+        .map(key => `${key}=${params[key]}`)
+        .join('&')
+    // 插入DOM元素
+    const script = document.createElement('script');
+    script.setAttribute('src', `${url}?${paramString}`)
+    document.body.appendChild(script)
+}
+
+JSON({
+    url: "http://s.weibo.com/ajax/jsonp/suggestion",
+    params: {
+        key: 'test'
+    },
+    callbackKey: '_cb',
+    callback(result) {
+        console.log(result.data)
+    }
+})
+```
+
+# 实现防抖函数 #
+
+防抖函数原理：在事件被触发`n`秒后再执行回调，如果在这`n`秒内又被触发，则重新计时。
+
+```javascript
+// 防抖函数
+const debounce = (fn, delay) => {
+    let timer = null;
+    return (...args) => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn.args(this, args)
+        }, delay)
+    }
+}
+```
+
+适用场景：
+
+- 按钮提交：防止多次提交按钮，只执行最后提交的一次
+- 服务端验证：表单验证需要服务端配合，只执行一段连续的输入事件的最后一次，还有搜索联想词的功能类似
+
+# 实现节流函数 #
+
+节流函数原理：规定在一个单位时间内，只能触发一次函数。如果这个单位时间内触发多次函数，只有一次生效。  
+
+```javascript
+// 节流函数
+const throttle = (fn, delay = 500) => {
+    let flag = true;
+    return (...args) => {
+        if (!flag) return;
+        setTimeout(() => {
+            fn.apply(this, args)
+            flag = true
+        }, delay)
+    }
+}
+```
+
+适用场景：
+
+- 拖拽：固定时间内只执行一次，防止超高频次触发位置变动
+- 缩放场景：监控浏览器`resize`
+- 动画：避免短时间内多次触发动画引起性能问题
+
+# 深克隆 #
+

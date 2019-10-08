@@ -178,8 +178,8 @@ social:
   GitHub: https://github.com/whjin || github
   E-Mail: mailto:wuhuajin09@163.com || envelope
   Weibo: https://weibo.com/boyatazhizi || weibo
-  #简书: https://www.jianshu.com/u/63445e24e8bf || heartbeat
-  #掘金: https://juejin.im/user/5a371ae551882512d0607108 || spinner
+  掘金: https://juejin.im/user/579060131532bc0060b0ed85 || heartbeat
+  #简书: https://www.jianshu.com/u/4758c651897b || spinner
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
@@ -198,7 +198,7 @@ social_icons:
 # Usage: `permalink || title`
 # Value before `||` delimeter is the target permalink.
 # Value after `||` delimeter is the title and aria-label name.
-#github_banner: https://github.com/yourname || Follow me on GitHub
+github_banner: https://github.com/whjin || Follow me on GitHub
 
 # Blog rolls
 links_icon: link

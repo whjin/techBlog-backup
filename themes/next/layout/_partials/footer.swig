@@ -11,7 +11,7 @@
     <span class="author" itemprop="copyrightHolder">
       <span class="with-love" id="animate">
         <i class="fa fa-{{ theme.footer.icon.name }}"></i>
-      </span><a href="https://whjin.github.io" target="_blank">寒青</a>&nbsp;|&nbsp;<i class="fa fa-eye"></i></span>
+      </span><a href="https://github.com/whjin" target="_blank">寒青</a>&nbsp;|&nbsp;<i class="fa fa-eye"></i></span>
     <span id="busuanzi_container_site_pv" style="display: inline;">
      <a href="http://service.ibruce.info/" target="_blank"><span id="busuanzi_value_site_pv"></span></a> 次
      <a href="http://service.ibruce.info/" target="_blank"><span id="busuanzi_value_site_uv"></span></a> 人
